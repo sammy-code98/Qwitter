@@ -4,7 +4,15 @@
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title class="text-weight-bold"> Qwiiter </q-toolbar-title>
+        <q-toolbar-title class="text-weight-bold">
+          <span class="gt-sm">Qwiiter</span>
+          <q-icon
+            name="fas fa-dove"
+            size="sm"
+            color="primary"
+            class="q-pa-md lt-md absolute-center"
+          />
+        </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -54,7 +62,7 @@
       </q-input>
 
       <q-list separator padding>
-        <q-item  class="q-pa-md">
+        <q-item class="q-pa-md">
           <q-item-section>
             <q-item-label overline class="text-grey">Education</q-item-label>
             <q-item-label class="text-weight-bold"
@@ -71,7 +79,7 @@
           </q-item-section>
         </q-item>
 
-          <q-item class="q-pa-md">
+        <q-item class="q-pa-md">
           <q-item-section>
             <q-item-label overline class="text-grey">Education</q-item-label>
             <q-item-label class="text-weight-bold"
@@ -88,7 +96,7 @@
           </q-item-section>
         </q-item>
 
-          <q-item class="q-pa-md">
+        <q-item class="q-pa-md">
           <q-item-section>
             <q-item-label overline class="text-grey">Education</q-item-label>
             <q-item-label class="text-weight-bold"
@@ -105,7 +113,7 @@
           </q-item-section>
         </q-item>
 
-          <q-item class="q-pa-md">
+        <q-item class="q-pa-md">
           <q-item-section>
             <q-item-label overline class="text-grey">Education</q-item-label>
             <q-item-label class="text-weight-bold"
@@ -122,7 +130,7 @@
           </q-item-section>
         </q-item>
 
-          <q-item class="q-pa-md">
+        <q-item class="q-pa-md">
           <q-item-section>
             <q-item-label overline class="text-grey">Education</q-item-label>
             <q-item-label class="text-weight-bold"
@@ -163,3 +171,12 @@ export default {
   },
 };
 </script>
+
+// <style lang="sass">
+// .header-icon
+//   position: absolute
+//   bottom:0
+//   left:50%
+//   transform:translateX(-50%)
+
+// </style>
