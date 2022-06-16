@@ -20,7 +20,7 @@
       </div>
       <div class="col col-shrink">
         <q-btn
-        class="q-mb-lg"
+          class="q-mb-lg"
           unelevated
           rounded
           color="primary"
@@ -30,6 +30,7 @@
         />
       </div>
     </div>
+    <q-separator size="10px" color="grey-2"  class="divider-border"/>
   </q-page>
 </template>
 
@@ -51,4 +52,10 @@ export default {
   textarea
       font-size:19px
       line-height: 1.4rem !important
+
+
+.divider-border
+  border-top: 1px solid
+  border-bottom: 1px solid
+  border-color: $grey-4
 </style>
