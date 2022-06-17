@@ -31,7 +31,6 @@
       </div>
     </div>
     <q-separator size="10px" color="grey-2" class="divider-border" />
-
     <q-list separator>
       <q-item class="q-py-md" v-for="qweet in qweets" :key="qweet.date">
         <q-item-section avatar top>
@@ -39,7 +38,6 @@
             <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
           </q-avatar>
         </q-item-section>
-
         <q-item-section>
           <q-item-label class="text-subtitle2">
             <strong> Zammie Code </strong>
@@ -55,8 +53,7 @@
             <q-btn flat round color="grey" size="sm" icon="fas fa-trash" />
           </div>
         </q-item-section>
-
-        <q-item-section side top> {{ qweet.date }} </q-item-section>
+        <q-item-section side top> {{ filtered(qweet.date) }} </q-item-section>
       </q-item>
     </q-list>
   </q-page>
@@ -64,6 +61,7 @@
 
 <script>
 import { ref } from "vue";
+import { formatDistance } from "date-fns";
 
 const qweets = [
   {
@@ -74,25 +72,32 @@ const qweets = [
   {
     content:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-    date: 1655444629222,
+    date: 1655494629222,
   },
   {
     content:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-    date: 1655455629222,
+    date: 1655494629222,
   },
   {
     content:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-    date: 1655433629222,
+    date: 1655494629222,
   },
 ];
+
 export default {
   name: "HomePage",
+
   setup() {
+    // this function converts the date timestamp
+    function filtered(val) {
+      return formatDistance(val, new Date());
+    }
     return {
       newQweet: ref(""),
       qweets,
+      filtered,
     };
   },
 };
