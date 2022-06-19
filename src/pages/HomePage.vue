@@ -5,7 +5,7 @@
         <q-input
           class="new-qweet"
           bottom-slots
-          v-model="newQweet"
+          v-model="newQweetContent"
           placeholder="What's happening?"
           counter
           autogrow
@@ -20,13 +20,14 @@
       </div>
       <div class="col col-shrink">
         <q-btn
+          @click="addNewQweet"
           class="q-mb-lg"
           unelevated
           rounded
           color="primary"
           label="Qweet"
           no-caps
-          :disable="!newQweet"
+          :disable="!newQweetContent"
         />
       </div>
     </div>
@@ -63,41 +64,51 @@
 import { ref } from "vue";
 import { formatDistance } from "date-fns";
 
-const qweets = [
-  {
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-    date: 1655494629222,
-  },
-  {
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-    date: 1655494629222,
-  },
-  {
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-    date: 1655494629222,
-  },
-  {
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-    date: 1655494629222,
-  },
-];
-
 export default {
   name: "HomePage",
 
   setup() {
+    const qweets = [
+      {
+        content:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+        date: 1655494629222,
+      },
+      {
+        content:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+        date: 1655500941991,
+      },
+      {
+        content:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+        date: 1655494629222,
+      },
+      {
+        content:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+        date: 1655494629222,
+      },
+    ];
+
     // this function converts the date timestamp
     function filtered(val) {
       return formatDistance(val, new Date());
     }
+
+    function addNewQweet() {
+      let newQweet = {
+        content: newQweet.value,
+        date: Date.now(),
+      }
+      qweets.value.push(newQweet);
+      console.log(qweets);
+    }
     return {
-      newQweet: ref(""),
+      newQweetContent: ref(""),
       qweets,
       filtered,
+      addNewQweet,
     };
   },
 };
