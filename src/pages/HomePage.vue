@@ -95,14 +95,14 @@ export default {
     function filtered(val) {
       return formatDistance(val, new Date());
     }
-
     function addNewQweet() {
       let newQweet = {
         content: newQweet.value,
         date: Date.now(),
-      }
-      qweets.value.push(newQweet);
-      console.log(qweets);
+      };
+       qweets.value.push(newQweet.value);
+      console.log(newQweet);
+
     }
     return {
       newQweetContent: ref(""),
