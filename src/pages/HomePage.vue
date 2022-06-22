@@ -2,8 +2,16 @@
   <q-page>
     <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
       <div class="col">
-        <q-input class="new-qweet" bottom-slots v-model="newQweet" placeholder="What's happening?" counter autogrow
-          maxlength="280" @keyup.enter="createNewQweet()">
+        <q-input
+          class="new-qweet"
+          bottom-slots
+          v-model="newQweet"
+          placeholder="What's happening?"
+          counter
+          autogrow
+          maxlength="280"
+          @keyup.enter="createNewQweet()"
+        >
           <template v-slot:before>
             <q-avatar size="xl">
               <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
@@ -12,7 +20,16 @@
         </q-input>
       </div>
       <div class="col col-shrink">
-        <q-btn class="q-mb-lg" @click="createNewQweet" unelevated rounded color="primary" label="Qweet" no-caps :disable="!newQweet" />
+        <q-btn
+          class="q-mb-lg"
+          @click="createNewQweet"
+          unelevated
+          rounded
+          color="primary"
+          label="Qweet"
+          no-caps
+          :disable="!newQweet"
+        />
       </div>
     </div>
     <q-separator size="10px" color="grey-2" class="divider-border" />
@@ -35,7 +52,14 @@
             <q-btn flat round color="grey" size="sm" icon="far fa-comment" />
             <q-btn flat round color="grey" size="sm" icon="fas fa-retweet" />
             <q-btn flat round color="grey" size="sm" icon="far fa-heart" />
-            <q-btn flat round color="grey" size="sm" icon="fas fa-trash" />
+            <q-btn
+              flat
+              round
+              color="grey"
+              size="sm"
+              icon="fas fa-trash"
+              @click="deleteQweet(qweet)"
+            />
           </div>
         </q-item-section>
         <q-item-section side top> {{ filtered(qweet.date) }} </q-item-section>
@@ -48,48 +72,62 @@
 import { ref } from "vue";
 import { formatDistance } from "date-fns";
 
-// const qweets =
-
 export default {
   name: "HomePage",
 
   setup() {
-    const newQweet = ref('')
+    const newQweet = ref("");
     const qweets = ref([
       {
         content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+          "When you have a button to submit a form’s input to the server, like a “Save” button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.",
         date: 1655494629222,
       },
       {
         content:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494629222,
+        date: 1655494629332,
       },
       {
         content:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494629222,
+        date: 1655494644222,
       },
       {
         content:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494629222,
+        date: 1655494633222,
       },
-    ])
+    ]);
+
     // this function converts the date timestamp
     function filtered(val) {
       return formatDistance(val, new Date());
     }
+
+    // create and submit new Qweet
     function createNewQweet() {
-      qweets.value.push({ content: newQweet.value, date: Date.now() })
-      newQweet.value = ''
+      // using push adds the newQweet to the bottom ,
+      // to add to the top use the unshift function
+      // qweets.value.push({ content: newQweet.value, date: Date.now() });
+
+      qweets.value.unshift({ content: newQweet.value, date: Date.now() });
+      newQweet.value = "";
     }
+
+    function deleteQweet(qweet) {
+      // get the index/id of the specific tweet you want to delete
+      let qweetId = qweet.date;
+      let index = qweets.value.findIndex((qweet) => qweet.date === qweetId);
+      qweets.value.splice(index, 1);
+    }
+
     return {
       newQweet,
       qweets,
       filtered,
-      createNewQweet
+      createNewQweet,
+      deleteQweet,
     };
   },
 };
