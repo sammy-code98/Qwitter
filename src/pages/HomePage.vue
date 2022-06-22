@@ -80,23 +80,23 @@ export default {
     const qweets = ref([
       {
         content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+          "When you have a button to submit a form’s input to the server, like a “Save” button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.",
         date: 1655494629222,
       },
       {
         content:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494629222,
+        date: 1655494629332,
       },
       {
         content:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494629222,
+        date: 1655494644222,
       },
       {
         content:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494629222,
+        date: 1655494633222,
       },
     ]);
 
@@ -116,7 +116,10 @@ export default {
     }
 
     function deleteQweet(qweet) {
-      qweets.value.splice(qweet, 1);
+      // get the index/id of the specific tweet you want to delete
+      let qweetId = qweet.date;
+      let index = qweets.value.findIndex((qweet) => qweet.date === qweetId);
+      qweets.value.splice(index, 1);
     }
 
     return {
