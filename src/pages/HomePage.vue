@@ -52,7 +52,14 @@
             <q-btn flat round color="grey" size="sm" icon="far fa-comment" />
             <q-btn flat round color="grey" size="sm" icon="fas fa-retweet" />
             <q-btn flat round color="grey" size="sm" icon="far fa-heart" />
-            <q-btn flat round color="grey" size="sm" icon="fas fa-trash" />
+            <q-btn
+              flat
+              round
+              color="grey"
+              size="sm"
+              icon="fas fa-trash"
+              @click="deleteQweet(qweet)"
+            />
           </div>
         </q-item-section>
         <q-item-section side top> {{ filtered(qweet.date) }} </q-item-section>
@@ -64,8 +71,6 @@
 <script>
 import { ref } from "vue";
 import { formatDistance } from "date-fns";
-
-// const qweets =
 
 export default {
   name: "HomePage",
@@ -110,11 +115,16 @@ export default {
       newQweet.value = "";
     }
 
+    function deleteQweet(qweet) {
+      qweets.value.splice(qweet, 1);
+    }
+
     return {
       newQweet,
       qweets,
       filtered,
       createNewQweet,
+      deleteQweet,
     };
   },
 };
