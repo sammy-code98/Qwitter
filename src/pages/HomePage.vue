@@ -94,6 +94,7 @@ export default {
         date: 1655494629222,
       },
     ]);
+
     // this function converts the date timestamp
     function filtered(val) {
       return formatDistance(val, new Date());
@@ -101,9 +102,14 @@ export default {
 
     // create and submit new Qweet
     function createNewQweet() {
-      qweets.value.push({ content: newQweet.value, date: Date.now() });
+      // using push adds the newQweet to the bottom ,
+      // to add to the top use the unshift function
+      // qweets.value.push({ content: newQweet.value, date: Date.now() });
+
+      qweets.value.unshift({ content: newQweet.value, date: Date.now() });
       newQweet.value = "";
     }
+
     return {
       newQweet,
       qweets,
