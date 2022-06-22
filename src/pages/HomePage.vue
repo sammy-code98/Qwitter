@@ -1,70 +1,92 @@
 <template>
-  <q-page>
-    <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
-      <div class="col">
-        <q-input
-          class="new-qweet"
-          bottom-slots
-          v-model="newQweet"
-          placeholder="What's happening?"
-          counter
-          autogrow
-          maxlength="280"
-          @keyup.enter="createNewQweet()"
+  <q-page class="relative-position">
+    <q-scroll-area class="absolute fullscreen" :thumb-style="thumbStyle">
+      <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
+        <div class="col">
+          <q-input
+            class="new-qweet"
+            bottom-slots
+            v-model="newQweet"
+            placeholder="What's happening?"
+            counter
+            autogrow
+            maxlength="280"
+            @keyup.enter="createNewQweet()"
+          >
+            <template v-slot:before>
+              <q-avatar size="xl">
+                <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
+              </q-avatar>
+            </template>
+          </q-input>
+        </div>
+        <div class="col col-shrink">
+          <q-btn
+            class="q-mb-lg"
+            @click="createNewQweet"
+            unelevated
+            rounded
+            color="primary"
+            label="Qweet"
+            no-caps
+            :disable="!newQweet"
+          />
+        </div>
+      </div>
+      <q-separator size="10px" color="grey-2" class="divider-border" />
+      <q-list separator>
+        <transition-group
+          appear
+          enter-active-class="animated fadeIn slow"
+          leave-active-class="animated fadeOut slow "
         >
-          <template v-slot:before>
-            <q-avatar size="xl">
-              <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
-            </q-avatar>
-          </template>
-        </q-input>
-      </div>
-      <div class="col col-shrink">
-        <q-btn
-          class="q-mb-lg"
-          @click="createNewQweet"
-          unelevated
-          rounded
-          color="primary"
-          label="Qweet"
-          no-caps
-          :disable="!newQweet"
-        />
-      </div>
-    </div>
-    <q-separator size="10px" color="grey-2" class="divider-border" />
-    <q-list separator>
-      <q-item class="q-py-md" v-for="qweet in qweets" :key="qweet.date">
-        <q-item-section avatar top>
-          <q-avatar size="xl">
-            <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
-          </q-avatar>
-        </q-item-section>
-        <q-item-section>
-          <q-item-label class="text-subtitle2">
-            <strong> Zammie Code </strong>
-            <span class="text-grey-7">@code_zammie99</span>
-          </q-item-label>
-          <q-item-label class="qweet-content text-body2">
-            {{ qweet.content }}
-          </q-item-label>
-          <div class="row justify-between q-mt-sm qweet-icons">
-            <q-btn flat round color="grey" size="sm" icon="far fa-comment" />
-            <q-btn flat round color="grey" size="sm" icon="fas fa-retweet" />
-            <q-btn flat round color="grey" size="sm" icon="far fa-heart" />
-            <q-btn
-              flat
-              round
-              color="grey"
-              size="sm"
-              icon="fas fa-trash"
-              @click="deleteQweet(qweet)"
-            />
-          </div>
-        </q-item-section>
-        <q-item-section side top> {{ filtered(qweet.date) }} </q-item-section>
-      </q-item>
-    </q-list>
+          <q-item class="q-py-md" v-for="qweet in qweets" :key="qweet.date">
+            <q-item-section avatar top>
+              <q-avatar size="xl">
+                <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-subtitle2">
+                <strong> Zammie Code </strong>
+                <span class="text-grey-7"
+                  >@code_zammie99 <br class="lt-md" />&bull;
+                  {{ filtered(qweet.date) }}
+                </span>
+              </q-item-label>
+              <q-item-label class="qweet-content text-body2">
+                {{ qweet.content }}
+              </q-item-label>
+              <div class="row justify-between q-mt-sm qweet-icons">
+                <q-btn
+                  flat
+                  round
+                  color="grey"
+                  size="sm"
+                  icon="far fa-comment"
+                />
+                <q-btn
+                  flat
+                  round
+                  color="grey"
+                  size="sm"
+                  icon="fas fa-retweet"
+                />
+                <q-btn flat round color="grey" size="sm" icon="far fa-heart" />
+                <q-btn
+                  flat
+                  round
+                  color="grey"
+                  size="sm"
+                  icon="fas fa-trash"
+                  @click="deleteQweet(qweet)"
+                />
+              </div>
+            </q-item-section>
+          </q-item>
+        </transition-group>
+      </q-list>
+    </q-scroll-area>
   </q-page>
 </template>
 
@@ -128,6 +150,14 @@ export default {
       filtered,
       createNewQweet,
       deleteQweet,
+
+      thumbStyle: {
+        right: "4px",
+        borderRadius: "5px",
+        backgroundColor: "#32a4f2",
+        width: "3px",
+        opacity: 0.75,
+      },
     };
   },
 };
