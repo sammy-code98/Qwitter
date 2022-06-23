@@ -93,6 +93,7 @@
 <script>
 import { ref } from "vue";
 import { formatDistance } from "date-fns";
+import  db from "src/boot/firebase"
 
 export default {
   name: "HomePage",
