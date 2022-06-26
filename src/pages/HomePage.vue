@@ -40,7 +40,7 @@
           enter-active-class="animated fadeIn slow"
           leave-active-class="animated fadeOut slow "
         >
-          <q-item class="q-py-md" v-for="qweet in qweets" :key="qweet.date">
+          <q-item class="q-py-md" v-for="qweet in qweets" :key="qweet.id">
             <q-item-section avatar top>
               <q-avatar size="xl">
                 <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
@@ -100,6 +100,8 @@ import {
   onSnapshot,
   orderBy,
   addDoc,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 
 export default {
@@ -128,20 +130,21 @@ export default {
       });
     }
 
-
-
-
-    function deleteQweet(qweet) {
+    async function deleteQweet(qweet) {
       // get the index/id of the specific tweet you want to delete
-      let qweetId = qweet.date;
-      let index = qweets.value.findIndex((qweet) => qweet.date === qweetId);
-      qweets.value.splice(index, 1);
+      // let qweetId = qweet.date;
+      // let index = qweets.value.findIndex((qweet) => qweet.date === qweetId);
+      // qweets.value.splice(index, 1);
+      await deleteDoc(doc(db, "qweets", qweet.id));
     }
+
+    // this whole part run on app mount and if firebase notice any chnages
     onMounted(() => {
       const q = query(collection(db, "qweets"), orderBy("date"));
       onSnapshot(q, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           let qweetChange = change.doc.data();
+          qweetChange.id = change.doc.id;
           if (change.type === "added") {
             console.log("New qweet: ", qweetChange);
             qweets.value.unshift(qweetChange);
@@ -151,6 +154,10 @@ export default {
           }
           if (change.type === "removed") {
             console.log("Removed qweet: ", qweetChange);
+            let index = qweets.value.findIndex(
+              (qweet) => qweet.id === qweetChange.id
+            );
+            qweets.value.splice(index, 1);
           }
         });
       });
