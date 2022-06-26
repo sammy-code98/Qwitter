@@ -5,7 +5,7 @@
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title class="text-weight-bold">
-          <span class="gt-sm">{{$route.name}}</span>
+          <span class="gt-sm">{{ $route.name }}</span>
           <q-icon
             name="fas fa-dove"
             size="sm"
@@ -35,7 +35,7 @@
 
           <q-item-section class="text-h6 text-weight-bold">Home</q-item-section>
         </q-item>
-        <q-item clickable v-ripple  exact to="/about">
+        <q-item clickable v-ripple exact to="/about">
           <q-item-section avatar>
             <q-icon name="help" size="md" />
           </q-item-section>
@@ -150,7 +150,12 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <!-- use the keep alive tag to prevent mutilple rerenders -->
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>
@@ -161,7 +166,7 @@ import { ref } from "vue";
 export default {
   setup() {
     const leftDrawerOpen = ref(false);
-    const rightDrawerOpen = ref(false)
+    const rightDrawerOpen = ref(false);
 
     return {
       leftDrawerOpen,
@@ -174,11 +179,13 @@ export default {
 };
 </script>
 
-// <style lang="sass">
+//
+<style lang="sass">
 // .header-icon
 //   position: absolute
 //   bottom:0
 //   left:50%
 //   transform:translateX(-50%)
 
-// </style>
+//
+</style>
