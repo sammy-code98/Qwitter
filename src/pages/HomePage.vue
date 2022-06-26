@@ -1,6 +1,9 @@
 <template>
   <q-page class="relative-position">
-    <q-scroll-area class="absolute fullscreen" :thumb-style="thumbStyle">
+    <q-scroll-area
+      class="absolute full-height full-width"
+      :thumb-style="thumbStyle"
+    >
       <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
         <div class="col">
           <q-input
@@ -146,6 +149,7 @@ export default {
         date: Date.now(),
         liked: false,
       });
+      newQweet.value = "";
     }
 
     async function deleteQweet(qweet) {
