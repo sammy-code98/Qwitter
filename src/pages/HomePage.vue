@@ -91,9 +91,10 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { formatDistance } from "date-fns";
-import  db from "src/boot/firebase"
+import db from "src/boot/firebase";
+import { collection, query, onSnapshot } from "firebase/firestore";
 
 export default {
   name: "HomePage",
@@ -101,26 +102,26 @@ export default {
   setup() {
     const newQweet = ref("");
     const qweets = ref([
-      {
-        content:
-          "When you have a button to submit a form’s input to the server, like a “Save” button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.",
-        date: 1655494629222,
-      },
-      {
-        content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494629332,
-      },
-      {
-        content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494644222,
-      },
-      {
-        content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
-        date: 1655494633222,
-      },
+      // {
+      //   content:
+      //     "When you have a button to submit a form’s input to the server, like a “Save” button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.",
+      //   date: 1655494629222,
+      // },
+      // {
+      //   content:
+      //     "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+      //   date: 1655494629332,
+      // },
+      // {
+      //   content:
+      //     "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+      //   date: 1655494644222,
+      // },
+      // {
+      //   content:
+      //     "Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequuntur quas earum ipsam est enim accusantium tenetur laudantium sunt ducimus culpa, quo voluptas. Aperiam sunt corrupti iusto dolorum cumque libero porro.",
+      //   date: 1655494633222,
+      // },
     ]);
 
     // this function converts the date timestamp
@@ -144,6 +145,22 @@ export default {
       let index = qweets.value.findIndex((qweet) => qweet.date === qweetId);
       qweets.value.splice(index, 1);
     }
+    onMounted(() => {
+      const q = query(collection(db, "qweets"));
+      onSnapshot(q, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "added") {
+            console.log("New qweet: ", change.doc.data());
+          }
+          if (change.type === "modified") {
+            console.log("Modified qweet: ", change.doc.data());
+          }
+          if (change.type === "removed") {
+            console.log("Removed qweet: ", change.doc.data());
+          }
+        });
+      });
+    });
 
     return {
       newQweet,
