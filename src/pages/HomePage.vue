@@ -146,14 +146,12 @@ export default {
           let qweetChange = change.doc.data();
           qweetChange.id = change.doc.id;
           if (change.type === "added") {
-            console.log("New qweet: ", qweetChange);
             qweets.value.unshift(qweetChange);
           }
           if (change.type === "modified") {
             console.log("Modified qweet: ", qweetChange);
           }
           if (change.type === "removed") {
-            console.log("Removed qweet: ", qweetChange);
             let index = qweets.value.findIndex(
               (qweet) => qweet.id === qweetChange.id
             );
