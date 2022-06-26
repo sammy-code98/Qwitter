@@ -94,7 +94,7 @@
 import { ref, onMounted } from "vue";
 import { formatDistance } from "date-fns";
 import db from "src/boot/firebase";
-import { collection, query, onSnapshot } from "firebase/firestore";
+import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 
 export default {
   name: "HomePage",
@@ -146,17 +146,19 @@ export default {
       qweets.value.splice(index, 1);
     }
     onMounted(() => {
-      const q = query(collection(db, "qweets"));
+      const q = query(collection(db, "qweets"), orderBy("date"));
       onSnapshot(q, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
+          let qweetChange = change.doc.data();
           if (change.type === "added") {
-            console.log("New qweet: ", change.doc.data());
+            console.log("New qweet: ", qweetChange);
+            qweets.value.unshift(qweetChange);
           }
           if (change.type === "modified") {
-            console.log("Modified qweet: ", change.doc.data());
+            console.log("Modified qweet: ", qweetChange);
           }
           if (change.type === "removed") {
-            console.log("Removed qweet: ", change.doc.data());
+            console.log("Removed qweet: ", qweetChange);
           }
         });
       });
