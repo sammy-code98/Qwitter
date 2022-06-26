@@ -1,6 +1,9 @@
 <template>
   <q-page class="relative-position">
-    <q-scroll-area class="absolute fullscreen" :thumb-style="thumbStyle">
+    <q-scroll-area
+      class="absolute full-height full-width"
+      :thumb-style="thumbStyle"
+    >
       <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
         <div class="col">
           <q-input
@@ -72,7 +75,14 @@
                   size="sm"
                   icon="fas fa-retweet"
                 />
-                <q-btn flat round color="grey" size="sm" icon="far fa-heart" />
+                <q-btn
+                  @click="toggleLiked(qweet)"
+                  flat
+                  round
+                  :color="qweet.liked ? 'pink' : 'grey'"
+                  size="sm"
+                  :icon="qweet.liked ? 'fas fa-heart' : 'far fa-heart'"
+                />
                 <q-btn
                   flat
                   round
@@ -102,6 +112,7 @@ import {
   addDoc,
   deleteDoc,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 
 export default {
@@ -116,6 +127,15 @@ export default {
       return formatDistance(val, new Date());
     }
 
+    // toogle liked
+
+    async function toggleLiked(qweet) {
+      const qweetRef = doc(db, "qweets", qweet.id);
+      await updateDoc(qweetRef, {
+        liked: !qweet.liked,
+      });
+    }
+
     // create and submit new Qweet
     async function createNewQweet() {
       // using push adds the newQweet to the bottom ,
@@ -127,7 +147,9 @@ export default {
       const docRef = await addDoc(collection(db, "qweets"), {
         content: newQweet.value,
         date: Date.now(),
+        liked: false,
       });
+      newQweet.value = "";
     }
 
     async function deleteQweet(qweet) {
@@ -149,7 +171,10 @@ export default {
             qweets.value.unshift(qweetChange);
           }
           if (change.type === "modified") {
-            console.log("Modified qweet: ", qweetChange);
+            let index = qweets.value.findIndex(
+              (qweet) => qweet.id === qweetChange.id
+            );
+            Object.assign(qweets.value[index], qweetChange);
           }
           if (change.type === "removed") {
             let index = qweets.value.findIndex(
@@ -167,6 +192,7 @@ export default {
       filtered,
       createNewQweet,
       deleteQweet,
+      toggleLiked,
 
       thumbStyle: {
         right: "4px",
