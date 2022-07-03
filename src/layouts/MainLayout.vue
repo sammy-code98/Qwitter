@@ -1,6 +1,9 @@
 <template>
   <q-layout view="lHr lpR fFf">
-    <q-header bordered class="bg-white text-black">
+    <q-header
+      bordered
+      :class="{ 'bg-dark': $q.dark.isActive, 'bg-white': !$q.dark.isActive }"
+    >
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
@@ -43,6 +46,16 @@
           <q-item-section class="text-h6 text-weight-bold"
             >About</q-item-section
           >
+        </q-item>
+        <q-separator class="q-mt-md" />
+        <q-item clickable v-ripple @click="toggleMode">
+          <q-item-section avatar>
+            <q-icon name="mdi-theme-light-dark" size="md" />
+          </q-item-section>
+
+          <q-item-section class="text-h6 text-weight-bold">{{
+            $q.dark.isActive ? "Light Mode" : "Dark Mode"
+          }}</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -162,15 +175,25 @@
 
 <script>
 import { ref } from "vue";
+import { useQuasar } from "quasar";
 
 export default {
   setup() {
     const leftDrawerOpen = ref(false);
     const rightDrawerOpen = ref(false);
+    const $q = useQuasar();
+
+    // console.log($q.dark.isActive); // true, false
+    // console.log($q.dark.mode); // "auto", true, false
+
+    function toggleMode() {
+      $q.dark.toggle();
+    }
 
     return {
       leftDrawerOpen,
       rightDrawerOpen,
+      toggleMode,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
@@ -179,13 +202,10 @@ export default {
 };
 </script>
 
-//
 <style lang="sass">
 // .header-icon
 //   position: absolute
 //   bottom:0
 //   left:50%
 //   transform:translateX(-50%)
-
-//
 </style>
