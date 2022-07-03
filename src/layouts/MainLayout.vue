@@ -1,6 +1,9 @@
 <template>
   <q-layout view="lHr lpR fFf">
-    <q-header bordered :class="{ 'bg-dark' : $q.dark.isActive, 'bg-white':!$q.dark.isActive}">
+    <q-header
+      bordered
+      :class="{ 'bg-dark': $q.dark.isActive, 'bg-white': !$q.dark.isActive }"
+    >
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
@@ -50,9 +53,9 @@
             <q-icon name="mdi-theme-light-dark" size="md" />
           </q-item-section>
 
-          <q-item-section class="text-h6 text-weight-bold"
-            >{{$q.dark.isActive ? 'Light Mode' : 'Dark Mode'}}</q-item-section
-          >
+          <q-item-section class="text-h6 text-weight-bold">{{
+            $q.dark.isActive ? "Light Mode" : "Dark Mode"
+          }}</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -205,5 +208,4 @@ export default {
 //   bottom:0
 //   left:50%
 //   transform:translateX(-50%)
-
 </style>

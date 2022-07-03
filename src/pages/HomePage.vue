@@ -36,7 +36,11 @@
           />
         </div>
       </div>
-      <q-separator size="10px" color="grey-2" class="divider-border" />
+      <q-separator
+        size="10px"
+        color="grey-2"
+        class="divider-border"
+      />
       <q-list separator>
         <transition-group
           appear
