@@ -44,6 +44,16 @@
             >About</q-item-section
           >
         </q-item>
+        <q-separator class="q-mt-md"/>
+         <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="mdi-theme-light-dark" size="md" />
+          </q-item-section>
+
+          <q-item-section class="text-h6 text-weight-bold"
+            >Dark mode</q-item-section
+          >
+        </q-item>
       </q-list>
     </q-drawer>
 
